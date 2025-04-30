@@ -2,6 +2,9 @@ import express from "express";
 import cors from "cors";
 import routes from "./routes/index.js";
 import "dotenv/config";
+import connectDB from "./database.js";
+
+
 
 // ejecucion de express
 const app = express();
@@ -12,6 +15,12 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 // nos permite que todo lo que enviemos al servidor o lo que entre venga o vaya parseado en formato json
 app.use (express.json());
+
+console.log("🔍 URI de conexión:", process.env.MONGO_URI);
+
+// llamamos a la funcion de conexion a la base de datos
+// y la ejecutamos
+connectDB();
 
 // esta funcion toma dos parametros, el puerto y una funcion de callback
 app.get("/",(req, res)=>{

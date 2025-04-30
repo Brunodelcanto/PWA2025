@@ -1,3 +1,5 @@
+import User from "../../models/user.js";
+
 const users = {
     1: {
         username: "John",
@@ -7,7 +9,7 @@ const users = {
     2: {
         username: "Jane",
         name: "Jane Doe",
-        emai: "janedoe@gmail.com"
+        email: "janedoe@gmail.com"
     }
 }
 
@@ -19,5 +21,25 @@ const getUser = (req, res) => {
    });
 };
 
+// Creamos un controlador para poder insertar informacion en la base de datos
+const createUser = async (req, res)=>{
+    try {
+        // el controlador crea un nuevo usuario con la informacion que recibe del cliente
+        const user = new User(req.body);
+        // el controlador guarda el usuario en la base de datos
+        await user.save();
+        // el controlador devuelve una respuesta al cliente
+        res.status(201).json({
+            message: "User created successfully",
+            data: user,
+            error: false,
+        });
+    } catch (error) {
+        res.status(400).json({
+            error: error.message
+        });
+    }
+}
+
 // exportamos la funcion getUser para poder usarla en otros archivos 
-export { getUser };
+export { getUser, createUser };
