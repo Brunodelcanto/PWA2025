@@ -1,4 +1,12 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose, { Schema, Document} from "mongoose";
+
+export interface User extends Document {
+    name: string;
+    lastName: string;
+    birthDate: Date;
+    email: string;
+    isAdmin: boolean;
+}
 
 // modelamos una entidad que se llama usuario
 // definimios sus atributos y sus tipos de datos
@@ -29,7 +37,7 @@ const userSchema = new Schema(
 );
 
 // el primer parametro es el nombre del modelo y el segundo es lo que va a ir dentro del modelo
-const User = mongoose.model("User", userSchema);
+const User = mongoose.model<User>("User", userSchema);
 
 // exportamos el modelo para poder usarlo en otros archivos
 export default User;

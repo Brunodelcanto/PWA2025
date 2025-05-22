@@ -1,28 +1,29 @@
-import User from "../../models/user.js";
+import { Request, Response } from "express";
+import User from "../../models/user";
 
-const users = {
-    1: {
-        username: "John",
-        name: "John Doe",
-        email: "johndoe@gmail.com",
-    },
-    2: {
-        username: "Jane",
-        name: "Jane Doe",
-        email: "janedoe@gmail.com"
-    }
-}
+// const users = {
+//     1: {
+//         username: "John",
+//         name: "John Doe",
+//         email: "johndoe@gmail.com",
+//     },
+//     2: {
+//         username: "Jane",
+//         name: "Jane Doe",
+//         email: "janedoe@gmail.com"
+//     }
+// }
 
 // Esta funcion recibe todos los usuarios y los devuelve en formato json
-const getUser = (req, res) => {
-   res.status(200).json({
-    status: "success",
-    data: users,
-   });
-};
+// const getUser = (req: Request, res: Response) => {
+//    res.status(200).json({
+//     status: "success",
+//     data: users,
+//    });
+// };
 
 // Creamos un controlador para poder insertar informacion en la base de datos
-const createUser = async (req, res)=>{
+const createUser = async (req: Request, res: Response)=>{
     try {
         // el controlador crea un nuevo usuario con la informacion que recibe del cliente
         const user = new User(req.body);
@@ -34,7 +35,7 @@ const createUser = async (req, res)=>{
             data: user,
             error: false,
         });
-    } catch (error) {
+    } catch (error: any) {
         res.status(400).json({
             error: error.message
         });
@@ -42,7 +43,7 @@ const createUser = async (req, res)=>{
 }
 
 // Esta funcion recibe todos los usuarios y los devuelve en formato json
-const getUsers = async (req, res) => {
+const getUsers = async (req: Request, res: Response) => {
     try {
         const users = await User.find();
         res.status(200).json({
@@ -50,7 +51,7 @@ const getUsers = async (req, res) => {
             data: users,
             error: false,
         });
-    } catch (error) {
+    } catch (error: any) {
         res.status(400).json({
             error: error.message,
         });
@@ -58,7 +59,7 @@ const getUsers = async (req, res) => {
 };
 
 // Esta funcion recibe un id y devuelve el usuario correspondiente
-const getUserById = async (req, res) => {
+const getUserById = async (req: Request, res: Response) => {
     try {
         // le enviamos el id de usuario que queremos buscar
         const { id } = req.params;
@@ -67,10 +68,11 @@ const getUserById = async (req, res) => {
         const user = await User.findById(id);
         // si el usuario no existe, devolvemos un error
         if (!user){
-            return res.status(404).json({
+                res.status(404).json({
                 message: "User not found",
                 error: true,
             });
+            return;
         }
         // si el usuario existe, devolvemos la informacion del usuario
         res.status(200).json({
@@ -78,7 +80,7 @@ const getUserById = async (req, res) => {
             data: user,
             error: false,  
         })
-    } catch (error) {
+    } catch (error: any) {
         res.status(400).json({
             error: error.message,
         });
@@ -86,7 +88,7 @@ const getUserById = async (req, res) => {
 };
 
 
-const updateUser = async (req, res) => {
+const updateUser = async (req: Request, res: Response) => {
     try {
         const { id } = req.params;
         const user = await User.findByIdAndUpdate(
@@ -100,40 +102,42 @@ const updateUser = async (req, res) => {
             { new: true }
         );
         if (!user){
-            return res.status(404).json({
+                res.status(404).json({
                 message: "User not found",
                 error: true,
             });
+            return;
         }
         res.status(200).json({
             message: "Update successfully",
             data: user,
             error: false,
         });
-    } catch (error) {
+    } catch (error: any) {
         res.status(400).json({
             error: error.message,
         });
     }
 }
 
-const deleteUser = async (req, res)=>{
+const deleteUser = async (req: Request, res: Response)=>{
     try {
         // le pasamos el id del usuario que queremos eliminar
         const { id } = req.params;
         // y lo eliminamos de la base de datos
         const user = await User.findByIdAndDelete(id);
         if (!user){
-            return res.status(404).json({
+                res.status(404).json({
                 message: "User not found",
                 error: true,
             });
+            return;
         }
         res.status(200).json({
             message: "Deletes successfully",
             error: false,
         });
-    } catch (error) {
+    } catch (error: any) {
         res.status(400).json({
             error: error.message,
         });
@@ -142,4 +146,4 @@ const deleteUser = async (req, res)=>{
 
 
 // exportamos la funcion getUser para poder usarla en otros archivos 
-export { getUser, createUser, getUserById, getUsers, updateUser, deleteUser };
+export { /*getUser,*/ createUser, getUserById, getUsers, updateUser, deleteUser };

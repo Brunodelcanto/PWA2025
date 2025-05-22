@@ -6,7 +6,7 @@ const connectDB = async () => {
     try {
         // mediante este proceso nos conectamos a la base de datos
         // el URI lo tenemos en el archivo .env
-        await mongoose.connect(process.env.MONGO_URI, "");
+        await mongoose.connect(process.env.MONGO_URI ?? "");
         console.log("Database MongoDB connected✅");
     } catch (error) {
         // si no se conecta a la base de datos, mostramos el error en consola

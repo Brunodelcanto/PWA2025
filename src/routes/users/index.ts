@@ -1,7 +1,7 @@
 import express from "express";
 // importamos el controlador de usuarios
 // el controlador es el encargado de recibir la peticion y devolver la respuesta
-import { getUser, createUser, getUserById, updateUser, getUsers, deleteUser } from "../../controllers/users/index.js";
+import { createUser, getUserById, updateUser, getUsers, deleteUser } from "../../controllers/users/index";
 
 // guardamos en esta variable para poder usar el routeo de express
 const router = express.Router();
